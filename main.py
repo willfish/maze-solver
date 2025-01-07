@@ -1,6 +1,7 @@
 from window import Window
 
 win = Window(800, 600)
-win.draw_line(100, 100, 200, 100, "black")
+
+win.draw_cell(200, 300, 300, 200, "red")
 
 win.wait_for_close()

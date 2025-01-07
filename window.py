@@ -1,6 +1,7 @@
 from tkinter import Tk, BOTH, Canvas
 from point import Point
 from line import Line
+from cell import Cell
 
 class Window():
     def __init__(self, width, height) -> None:
@@ -17,6 +18,10 @@ class Window():
     def draw_line(self, x1, y1, x2, y2, fill_color):
         line = Line(Point(x1, y1), Point(x2, y2))
         line.draw(self.canvas, fill_color)
+
+    def draw_cell(self, x1, y1, x2, y2, line_color):
+        cell = Cell(x1, y1, x2, y2, self)
+        cell.draw(line_color)
 
     def redraw(self):
         self._root.update_idletasks()
