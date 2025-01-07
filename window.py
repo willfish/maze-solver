@@ -19,9 +19,13 @@ class Window():
         line = Line(Point(x1, y1), Point(x2, y2))
         line.draw(self.canvas, fill_color)
 
-    def draw_cell(self, x1, y1, x2, y2, line_color):
+    def draw_cell(self, x1, y1, x2, y2, line_color) -> Cell:
         cell = Cell(x1, y1, x2, y2, self)
+        cell.has_left_wall = False
+        cell.has_right_wall = False
         cell.draw(line_color)
+
+        return cell
 
     def redraw(self):
         self._root.update_idletasks()
