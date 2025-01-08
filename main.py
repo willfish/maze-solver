@@ -6,8 +6,8 @@ border_height = 0
 width = 1500
 height = 1000
 win = Window(width, height)
-cols = 30
-rows = 30
+cols = 20
+rows = 20
 seed = 0
 
 maze = Maze(
@@ -20,5 +20,9 @@ maze = Maze(
     win,
     seed
 )
+print(f"Created a {rows}x{cols} maze")
+print("Solving maze...")
+result = maze.solve()
+print("Maze solved:", result)
 
 win.wait_for_close()

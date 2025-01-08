@@ -62,14 +62,6 @@ class Cell:
 
         self.move = self._win.draw_line(x1, y1, x2, y2, line_color)
 
-    def undo_move(self):
-        """undo_move() method clears the move line from the window canvas
-        :returns: None
-        """
-        if self.move:
-            self._win.clear(self.move)
-            self.move = None
-
     def _draw_left(self):
         if self.has_left_wall:
             if self.left:

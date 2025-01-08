@@ -1,5 +1,6 @@
 from cell import Cell
 import random
+import time
 
 class Maze:
     def __init__(
@@ -26,6 +27,31 @@ class Maze:
             random.seed(seed)
 
         self._create_cells()
+        self._reset_cells_visited()
+
+    def solve(self):
+        return self._solve(0, 0)
+
+    def _solve(self, i, j):
+        cell = self.cells[i][j]
+        cell.visit()
+
+        if cell == self.cells[self.num_rows - 1][self.num_cols - 1]:
+            return True
+
+        for dead_end, new_cell, new_i, new_j, _ in self._solve_exhaust_directions(i, j):
+            if not dead_end:
+                cell.draw_move(new_cell, undo=False)
+                self._animate()
+
+                if self._solve(new_i, new_j):
+                    return True
+                else:
+                    cell.draw_move(new_cell, undo=True)
+                    self._animate()
+                    continue
+
+        return False
 
     def _create_cells(self):
         for i in range(self.num_rows):
@@ -53,6 +79,7 @@ class Maze:
         self._animate()
 
     def _animate(self):
+        time.sleep(0.05)
         self.win.redraw()
 
     def _break_entrance_and_exit(self):
@@ -79,12 +106,11 @@ class Maze:
             self._draw_cell(new_cell)
 
             if self._break_walls(new_i, new_j):
-                self.reset_cells_visited()
                 return True
             else:
                 continue
 
-    def reset_cells_visited(self):
+    def _reset_cells_visited(self):
         for row in self.cells:
             for cell in row:
                 cell.visited = False
@@ -96,10 +122,10 @@ class Maze:
         direction: str,
     ):
         match direction:
-            case "up":
+            case "top":
                 cell.has_top_wall = False
                 new_cell.has_bottom_wall = False
-            case "down":
+            case "bottom":
                 cell.has_bottom_wall = False
                 new_cell.has_top_wall = False
             case "left":
@@ -116,8 +142,8 @@ class Maze:
         directions = [
             (0, 1, "right"),
             (0, -1, "left"),
-            (-1, 0, "up"),
-            (1, 0, "down"),
+            (-1, 0, "top"),
+            (1, 0, "bottom"),
         ]
 
         # Randomly exhaust the possible directions
@@ -132,15 +158,48 @@ class Maze:
             if candidate_i < 0 or candidate_j < 0 or candidate_i > self.num_rows - 1 or candidate_j > self.num_cols - 1:
                 continue
 
+            candidate_cell = self.cells[candidate_i][candidate_j]
+
             # Handle already visited directions
-            if self.cells[candidate_i][candidate_j].visited:
+            if candidate_cell.visited:
                 continue
 
             # Found a valid direction
             new_i, new_j = candidate_i, candidate_j
-            new_cell = self.cells[new_i][new_j]
+            new_cell = candidate_cell
             direction = candidate_direction
 
             yield False, new_cell, new_i, new_j, direction
+
+        yield True, None, None, None, None
+
+    def _solve_exhaust_directions(self, i, j):
+        directions = [
+            (0, 1, "right"),
+            (0, -1, "left"),
+            (-1, 0, "top"),
+            (1, 0, "bottom"),
+        ]
+        cell = self.cells[i][j]
+
+        for offset_i, offset_j, direction in directions:
+            new_i, new_j = (i + offset_i, j + offset_j)
+
+            if new_i < 0 or new_j < 0 or new_i > self.num_rows - 1 or new_j > self.num_cols - 1:
+                continue
+
+            new_cell = self.cells[new_i][new_j]
+            wall_in_way = getattr(cell, f"has_{direction}_wall")
+
+            if new_cell.visited:
+                print(f"Cell in direction {direction} already visited")
+                continue
+
+            if not wall_in_way:
+                print(f"Trying direction: {direction}")
+                yield False, new_cell, new_i, new_j, direction
+            else:
+                print(f"Wall found in direction: {direction}")
+
 
         yield True, None, None, None, None
