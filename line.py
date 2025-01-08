@@ -7,8 +7,8 @@ class Line:
         self.x2 = y.x
         self.y2 = y.y
 
-    def draw(self, canvas, fill_color):
-        canvas.create_line(
+    def draw(self, canvas, fill_color) -> int:
+        return canvas.create_line(
             self.x1,
             self.y1,
             self.x2,

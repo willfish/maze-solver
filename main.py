@@ -1,12 +1,24 @@
 from window import Window
+from maze import Maze
 
-win = Window(800, 600)
+border_width = 0
+border_height = 0
+width = 1500
+height = 1000
+win = Window(width, height)
+cols = 50
+rows = 50
+seed = 0
 
-cell_1 = win.draw_cell(100, 200, 200, 100, "red")
-cell_2 = win.draw_cell(300, 200, 400, 100, "red")
-cell_3 = win.draw_cell(500, 200, 600, 100, "red")
-
-cell_1.draw_move(cell_2)
-cell_2.draw_move(cell_3)
+maze = Maze(
+    border_width,
+    border_height,
+    rows,
+    cols,
+    (width - border_width * 2) // rows,
+    (height - border_height * 2) // cols,
+    win,
+    seed
+)
 
 win.wait_for_close()
