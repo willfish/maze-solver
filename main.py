@@ -6,8 +6,8 @@ border_height = 0
 width = 1500
 height = 1000
 win = Window(width, height)
-cols = 50
-rows = 50
+cols = 30
+rows = 30
 seed = 0
 
 maze = Maze(

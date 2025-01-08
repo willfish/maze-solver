@@ -21,11 +21,11 @@ class Maze:
         self.cell_size_y = cell_size_y # the height of the cell
         self.win = win
         self.cells = []
-        self._create_cells()
 
         if seed:
             random.seed(seed)
 
+        self._create_cells()
 
     def _create_cells(self):
         for i in range(self.num_rows):
@@ -67,7 +67,6 @@ class Maze:
         cell: Cell = self.cells[i][j]
         cell.visit()
 
-        # Handle getting to the end
         if i == self.num_rows - 1 and j == self.num_cols - 1:
             return True
 
@@ -80,10 +79,15 @@ class Maze:
             self._draw_cell(new_cell)
 
             if self._break_walls(new_i, new_j):
+                self.reset_cells_visited()
                 return True
             else:
                 continue
 
+    def reset_cells_visited(self):
+        for row in self.cells:
+            for cell in row:
+                cell.visited = False
 
     def _break_wall(
         self,

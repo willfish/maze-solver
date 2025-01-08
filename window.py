@@ -18,6 +18,9 @@ class Window():
         )
         self.is_running = False
 
+    def clear(self, id):
+        self.canvas.delete(id)
+
     def draw_line(self, x1, y1, x2, y2, fill_color):
         line = Line(Point(x1, y1), Point(x2, y2))
         return line.draw(self.canvas, fill_color)

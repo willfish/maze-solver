@@ -50,7 +50,7 @@ class Cell:
             :param to_cell: Cell object
         """
         if self.move:
-            self._win.canvas.delete(self.move)
+            self._win.clear(self.move)
 
         if undo:
             line_color = "gray"
@@ -67,7 +67,7 @@ class Cell:
         :returns: None
         """
         if self.move:
-            self._win.canvas.delete(self.move)
+            self._win.clear(self.move)
             self.move = None
 
     def _draw_left(self):
@@ -79,7 +79,7 @@ class Cell:
             x2, y2 = self.bottom_left
             self.left = self._win.draw_line(x1, y1, x2, y2, self.line_color)
         else:
-            self.clear("left")
+            self._win.clear(self.left)
             self.left = None
 
     def _draw_right(self):
@@ -91,7 +91,7 @@ class Cell:
             x2, y2 = self.bottom_right
             self.right = self._win.draw_line(x1, y1, x2, y2, self.line_color)
         else:
-            self.clear("right")
+            self._win.clear(self.right)
             self.right = None
 
     def _draw_top(self):
@@ -103,7 +103,7 @@ class Cell:
             x2, y2 = self.top_right
             self.top = self._win.draw_line(x1, y1, x2, y2, self.line_color)
         else:
-            self.clear("up")
+            self._win.clear(self.top)
             self.top = None
 
     def _draw_bottom(self):
@@ -115,18 +115,8 @@ class Cell:
             x2, y2 = self.bottom_right
             self.bottom = self._win.draw_line(x1, y1, x2, y2, self.line_color)
         else:
-            self.clear("down")
+            self._win.clear(self.bottom)
             self.bottom = None
 
-    def clear(self, direction):
-        """clear() method conditionally clears the cell walls on the window canvas
-        :returns: None
-        """
-        if direction == "up":
-            self._win.canvas.delete(self.top)
-        elif direction == "down":
-            self._win.canvas.delete(self.bottom)
-        elif direction == "left":
-            self._win.canvas.delete(self.left)
-        elif direction == "right":
-            self._win.canvas.delete(self.right)
+    def clear(self, identifier):
+        self._win.canvas.delete(getattr(self, identifier))
