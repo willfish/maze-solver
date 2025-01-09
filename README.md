@@ -4,8 +4,6 @@ A simple UI-driven maze generator and solver
 
 This is for personal learning and is not a serious project.
 
-![2025-01-09-113659_805x601_scrot](https://github.com/user-attachments/assets/db9022ae-d097-44e8-bf2b-be391730a19a)
-
 ![2025-01-09-121059_806x806_scrot](https://github.com/user-attachments/assets/f050097d-77ad-40a6-9dd6-82a3b80f3ada)
 
 It solves two problems:
