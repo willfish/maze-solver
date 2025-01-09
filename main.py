@@ -3,12 +3,12 @@ from maze import Maze
 
 border_width = 0
 border_height = 0
-width = 1500
-height = 1000
+width = 800
+height = 800
 win = Window(width, height)
-cols = 20
-rows = 20
-seed = 0
+cols = 200
+rows = 200
+seed = 100
 
 maze = Maze(
     border_width,

@@ -14,5 +14,5 @@ class Line:
             self.x2,
             self.y2,
             fill=fill_color,
-            width=2
+            width=1
         )
